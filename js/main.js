@@ -13,16 +13,17 @@
  *       - Once the snake eats the food, it must not be trapped
  *
  */
-window.onload = function() {
+define( ['game', 'moves'], function( Game, Moves ) {
+
     let numCells = 30
     let screenHeight = window.innerHeight
     let screenWidth = 1000
 
-    let aspectRatio = screenHeight/screenWidth
-    let numWCells = Math.ceil( numCells / aspectRatio )
-    let wCellWidth = screenWidth/numWCells
+    let aspectRatio = screenHeight / screenWidth
+    let numWCells = Math.ceil(numCells / aspectRatio)
+    let wCellWidth = screenWidth / numWCells
 
-    let cellDim = Math.ceil(screenHeight/numCells)
+    let cellDim = Math.ceil(screenHeight / numCells)
 
     let settings = {
         startingFrameDelay: 200,
@@ -40,32 +41,32 @@ window.onload = function() {
         wallColor: 'blue',
         foodColor: 'lightgray'
     }
-    let canvasEl = document.getElementById( "canvas" )
-    canvasEl.setAttribute( "height", ""+screenHeight )
-    canvasEl.setAttribute( "width", ""+screenWidth )
-    window.game = new Game( canvasEl, settings )
+    let canvasEl = document.getElementById("canvas")
+    canvasEl.setAttribute("height", "" + screenHeight)
+    canvasEl.setAttribute("width", "" + screenWidth)
+
+    window.game = new Game(canvasEl, settings)
 
     // Event handler for key-down
     this.mapKeyDown = (e) => {
         if (window.game.start) {
             switch (e.key) {
                 case 'ArrowRight':
-                    window.game.nextMove = EAST
+                    window.game.nextMove = Moves.EAST
                     return
                 case 'ArrowLeft':
-                    window.game.nextMove = WEST
+                    window.game.nextMove = Moves.WEST
                     return
                 case 'ArrowUp':
-                    window.game.nextMove = NORTH
+                    window.game.nextMove = Moves.NORTH
                     return
                 case 'ArrowDown':
-                    window.game.nextMove = SOUTH
+                    window.game.nextMove = Moves.SOUTH
                     return
                 case ' ':
                     window.game.turbo = true
             }
-        }
-        else if (e.key) {
+        } else if (e.key) {
             window.game.reset()
             window.game.start = true
         }
@@ -73,8 +74,8 @@ window.onload = function() {
 
     // Event handler for key-up
     this.mapKeyUp = (e) => {
-        if( game.start ) {
-            switch( e.key ) {
+        if (game.start) {
+            switch (e.key) {
                 case ' ':
                     game.turbo = false
                     return
@@ -83,7 +84,7 @@ window.onload = function() {
     }
 
     document.onkeydown = mapKeyDown
-    document.onkeyup   = mapKeyUp
+    document.onkeyup = mapKeyUp
 
     window.game.run()
-}
+})
